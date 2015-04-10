@@ -1,0 +1,137 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="store" ng-controller="PoCController as pocCtrl"> <!--<![endif]-->
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    </head>
+    <body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">EVHC Website Project</a>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<div class="container">
+				<h1>AMR Geo-marketing Proof of Concept!</h1>
+				<p>This is a template for a simple proof of concept for the different content areas.</p>
+				<div class="dropdown  pull-left">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						Select a Location
+						<span class="caret"></span>{{pocCtrl.Location.name}}
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation"><a class="dropDown" id="Denver" ng-class="{'active': pocCtrl.Location.Name == 'Denver'}" role="menuitem" tabindex="-1" href="#" ng-click="pocCtrl.setActive('Denver')">Denver</a></li>
+						<li role="presentation"><a class="dropDown" id="Boulder" ng-class="{'active': pocCtrl.Location.Name == 'Boulder'}" role="menuitem" tabindex="-1" href="#" ng-click="pocCtrl.setActive('Boulder')">Boulder</a></li>
+						<li class="divider"></li>
+						<li role="presentation"><a class="dropDown" id="National" ng-class="{'active': pocCtrl.Location.Name == 'National'}" role="menuitem" tabindex="-1" href="#" ng-click="pocCtrl.setActive('National')">National Page</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2">
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Admin Interface</button>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">-
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Admin Interface for News</h4>
+					</div>
+					<div class="modal-body">
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+							<div class="panel panel-default"  ng-repeat="news in pocCtrl.data.News">
+								<div class="panel-heading" role = "tab" id="heading{{$index}}">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}">{{news.Headline}}</a>
+									</h4>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
+									<div class="panel-body">
+										<div class="form-group">
+											<label>Headline</label>
+											<input class="form-control" ng-model="news.Headline" placeholder="{{news.Headline}}">
+										</div>
+										<div class="form-group">
+											<label>Details</label>
+											<textarea class="form-control" ng-model="news.Copy" placeholder="{{news.Copy}}"></textarea>
+										</div>	
+										<div class="form-group">
+											<label>Locations</label>
+											<div class='checkbox' ng-repeat="location in pocCtrl.List">
+												<label><input  type = 'checkbox'  ng-model="news.Locations[location]" ng-click="pocCtrl.setActive(pocCtrl.Location.Name)">{{location}}</label>
+											</div>
+										</div>	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- Example row of columns -->
+			<div class="row">
+				<div class="col-md-8">
+					<h2 style="display:inline-block">If you have an emergency, please call</h2> <h1 style="display:inline-block">9-1-1</h1>
+					<h3><span id="headerLocation">{{pocCtrl.Location.Name}}</span></h3>
+					<p id="locationCopy">{{pocCtrl.Location.Copy}}</p>
+				</div>
+				<div class="col-md-4">
+					<h3>Helpful Links</h3>
+					<div class="list-group">
+						<a href="#" class="list-group-item" ng-repeat="link in pocCtrl.Links">{{link}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<h2>News</h2>
+				<div class="newsStory col-md-4" ng-repeat="news in pocCtrl.News | limitTo:3">
+					<h3>{{news.Headline}}</h3>
+					<p>{{news.Copy}}</p>
+					<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
+				</div>
+			</div>
+			<services-module></services-module>
+			<div class="row services">
+				<h2>Services Provided in {{pocCtrl.Location.Name}}</h2>
+				<div class="col-md-6" ng-repeat="service in pocCtrl.Services" class="repeated-item" ng-if="service.Locations.indexOf(pocCtrl.Location.Name) != -1">
+					<div class="list-group">
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">{{service.Headline}}</h4>
+							<p class="list-group-item-text">{{service.Copy}}</p>
+						</a>
+					</div>
+				</div>				
+			</div>
+			<hr>
+			<footer>
+				<p>&copy; Company 2015</p>
+			</footer>
+		</div> <!-- /container -->      <!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+		<script src="data/data.js"></script>
+		<script src="js/angular.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

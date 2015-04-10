@@ -1,0 +1,3 @@
+data.Locations.Boulder = {
+	"Copy" : "The City of Boulder is the Home Rule Municipality that is the county seat and the most populous municipality of Boulder County, and the 11th most populous municipality in the U.S. state of Colorado.[7] Boulder is located at the base of the foothills of the Rocky Mountains at an elevation of 5,430 feet (1,655 m). The city is 25 miles (40 km) northwest of Denver. The population of the City of Boulder was 97,385 at the 2010 United States Census, while the population of the Boulder, CO Metropolitan Statistical Area was 294,567."
+};
